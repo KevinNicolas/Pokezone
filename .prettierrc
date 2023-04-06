@@ -1,0 +1,9 @@
+{
+  "arrowParens": "always",
+  "bracketSameLine": false,
+  "bracketSpacing": true,
+  "endOfLine": "lf",
+  "printWidth": 180,
+  "trailingComma": "es5",
+  "useTabs": false
+}
