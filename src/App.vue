@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import Loader from "~/components/Loader.component.vue";
+  import Home from "~/pages/Home/Home.page.vue";
 </script>
 
 <template>
-  <div>
-    <span>App</span>
-  </div>
+  <Home />
 </template>
 
 <style scoped></style>
