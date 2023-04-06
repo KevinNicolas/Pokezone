@@ -1,7 +1,7 @@
 export interface IPokemonData {
   abilities: Ability[];
   base_experience: number;
-  forms: Species[];
+  forms: NameAndUrl[];
   game_indices: GameIndex[];
   height: number;
   held_items: any[];
@@ -12,7 +12,7 @@ export interface IPokemonData {
   name: string;
   order: number;
   past_types: any[];
-  species: Species;
+  species: NameAndUrl;
   sprites: Sprites;
   stats: Stat[];
   types: Type[];
@@ -20,30 +20,30 @@ export interface IPokemonData {
 }
 
 interface Ability {
-  ability: Species;
+  ability: NameAndUrl;
   is_hidden: boolean;
   slot: number;
 }
 
-interface Species {
+interface NameAndUrl {
   name: string;
   url: string;
 }
 
 interface GameIndex {
   game_index: number;
-  version: Species;
+  version: NameAndUrl;
 }
 
 interface Move {
-  move: Species;
+  move: NameAndUrl;
   version_group_details: VersionGroupDetail[];
 }
 
 interface VersionGroupDetail {
   level_learned_at: number;
-  move_learn_method: Species;
-  version_group: Species;
+  move_learn_method: NameAndUrl;
+  version_group: NameAndUrl;
 }
 
 interface GenerationV {
@@ -161,10 +161,10 @@ interface Other {
 interface Stat {
   base_stat: number;
   effort: number;
-  stat: Species;
+  stat: NameAndUrl;
 }
 
 interface Type {
   slot: number;
-  type: Species;
+  type: NameAndUrl;
 }

@@ -1,8 +1,9 @@
 <script setup lang="ts">
-  import { ref, onBeforeMount, Fragment } from "vue";
+  import { ref, onBeforeMount } from "vue";
 
   import { IPokemonData } from "~/models";
   import { usePokemonsData } from "~/store";
+  import { getColorByPokemonType } from "~/utils";
 
   const props = defineProps({
     pokemonName: {
@@ -29,10 +30,17 @@
 </script>
 
 <template>
-  <div class="pokemon-card-container" :style="`--card-index: ${index}`">
+  <div class="pokemon-card-container" :style="`--card-index: ${index}; border: 1px solid ${getColorByPokemonType(pokemon?.types[0].type.name ?? '')};`">
     <span v-if="!pokemon">Cargando</span>
     <div v-else class="pokemon-card">
       <img :src="pokemon.sprites.other?.dream_world.front_default" class="pokemon-img" />
+      <h3 class="text">{{ pokemon.name }}</h3>
+      <div class="pokemon-types">
+        <div v-for="({ type }, index) in pokemon.types" :key="index" class="pild" :style="`background: ${getColorByPokemonType(type.name)}`">
+          <span>{{ type.name }}</span>
+        </div>
+      </div>
+      <span>{{ pokemon.weight / 10 }} kgs</span>
     </div>
   </div>
 </template>
@@ -45,12 +53,12 @@
     border-radius: 5px;
     background: rgba(0 0 0 / 0.1);
     display: inline-block;
-    border: 1px solid orange;
-    transition: background 200ms ease-in-out;
+    transition: all 200ms ease-in-out;
     animation: entrance calc(300ms + calc(100ms * var(--card-index))) ease-in-out;
   }
   .pokemon-card-container:hover {
     background: rgba(0 0 0 / 0.8);
+    transform: scale(1.1);
   }
   .pokemon-card-container:hover .pokemon-img {
     transform: translateY(-25px);
@@ -60,15 +68,41 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    gap: 2ch;
+  }
+
+  .pokemon-card > h3,
+  .pokemon-card > span {
+    text-transform: capitalize;
+    text-align: center;
   }
 
   .pokemon-card .pokemon-img {
     width: auto;
     max-width: 100%;
-    height: auto;
-    max-height: 200px;
+    height: 220px;
     object-fit: contain;
     transition: all 200ms ease-in-out;
+  }
+
+  .pokemon-types {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+    overflow-x: hidden;
+    width: 100%;
+    height: fit-content;
+  }
+
+  .pild {
+    color: white;
+    border-radius: 10px;
+    padding: 1px 1ch;
+    font-size: 1.2rem;
+    border: 1px solid white;
+    text-transform: capitalize;
   }
 
   @keyframes entrance {
