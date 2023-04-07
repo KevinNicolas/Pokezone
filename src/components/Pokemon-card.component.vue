@@ -1,5 +1,8 @@
 <script setup lang="ts">
   import { ref, onBeforeMount } from "vue";
+  import { useRouter } from "vue-router";
+
+  import Pild from "~/components/Pild.vue";
 
   import { IPokemonData } from "~/models";
   import { usePokemonsData } from "~/store";
@@ -16,9 +19,16 @@
     },
   });
 
+  const router = useRouter();
   const pokemonDataStore = usePokemonsData();
+
   const isLoading = ref(true);
   const pokemon = ref<IPokemonData>();
+
+  const goToPokemonInfo = () => {
+    if (!pokemon.value?.name) return;
+    router.push(`/${pokemon.value.name}`);
+  };
 
   onBeforeMount(async () => {
     let pokemonData: IPokemonData = pokemonDataStore.obtainPokemonData(props.pokemonName);
@@ -30,15 +40,17 @@
 </script>
 
 <template>
-  <div class="pokemon-card-container" :style="`--card-index: ${index}; border: 1px solid ${getColorByPokemonType(pokemon?.types[0].type.name ?? '')};`">
+  <div
+    class="pokemon-card-container"
+    :style="`--card-index: ${Math.min(index, 15)}; border: 1px solid ${getColorByPokemonType(pokemon?.types[0].type.name ?? '')};`"
+    @click="goToPokemonInfo"
+  >
     <span v-if="!pokemon">Cargando</span>
     <div v-else class="pokemon-card">
       <img :src="pokemon.sprites.other?.dream_world.front_default" class="pokemon-img" />
       <h3 class="text">{{ pokemon.name }}</h3>
       <div class="pokemon-types">
-        <div v-for="({ type }, index) in pokemon.types" :key="index" class="pild" :style="`background: ${getColorByPokemonType(type.name)}`">
-          <span>{{ type.name }}</span>
-        </div>
+        <Pild v-for="({ type }, index) in pokemon.types" :key="index" :pild-content="type.name" :color="getColorByPokemonType(type.name)" />
       </div>
       <span>{{ pokemon.weight / 10 }} kgs</span>
     </div>
@@ -94,23 +106,5 @@
     overflow-x: hidden;
     width: 100%;
     height: fit-content;
-  }
-
-  .pild {
-    color: white;
-    border-radius: 10px;
-    padding: 1px 1ch;
-    font-size: 1.2rem;
-    border: 1px solid white;
-    text-transform: capitalize;
-  }
-
-  @keyframes entrance {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
   }
 </style>

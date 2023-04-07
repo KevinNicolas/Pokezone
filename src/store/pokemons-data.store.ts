@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 
-import { IPokemonData } from "~/models";
+import { IPokemonData, IPokemonMove } from "~/models";
+import { IPokemonAbilities } from "~/models/pokemon-abilities.model";
 import { PokemonApiService } from "~/services";
 
 interface IState {
@@ -19,6 +20,14 @@ export const usePokemonsData = defineStore("pokemon-data", {
       const pokemonData = await new PokemonApiService().fetchPokemonData(pokemonName);
       this.pokemons = { ...this.pokemons, [pokemonName]: pokemonData };
       return pokemonData;
+    },
+
+    async getPokemonMove(moveName: string): Promise<IPokemonMove> {
+      return await new PokemonApiService().fetchPokemonMove(moveName);
+    },
+
+    async getPokemonAbility(abilityName: string): Promise<IPokemonAbilities> {
+      return await new PokemonApiService().fetchPokemonAbility(abilityName);
     },
   },
   getters: {

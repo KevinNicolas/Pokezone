@@ -1,13 +1,20 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import Home from "~/pages/Home/Home.page.vue";
-
 export default createRouter({
   history: createWebHistory(),
   routes: [
     {
+      name: "Homepage",
       path: "/",
-      component: Home,
+      component: () => import("~/pages/Home/Home.page.vue"),
+    },
+    {
+      name: "Pokemon-info",
+      path: "/:pokemonName",
+      component: () => import("~/pages/Pokemon/Pokemon.page.vue"),
     },
   ],
+  scrollBehavior() {
+    return { x: 0, y: 0 } as any;
+  },
 });
