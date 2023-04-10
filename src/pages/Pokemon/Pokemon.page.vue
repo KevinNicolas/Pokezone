@@ -83,10 +83,6 @@
     padding-bottom: 200px;
   }
 
-  h1 {
-    text-transform: capitalize;
-  }
-
   h2 {
     color: yellow;
   }
@@ -138,6 +134,7 @@
   }
 
   .basic-info h1 {
+    text-transform: capitalize;
     font-size: 3em;
   }
 
@@ -206,6 +203,10 @@
 
     .pokemon-image img {
       transform: translateY(150px);
+    }
+
+    .basic-info h1 {
+      font-size: 10vw;
     }
   }
 </style>
